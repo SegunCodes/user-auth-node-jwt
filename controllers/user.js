@@ -12,16 +12,19 @@ exports.signup = (req, res) => {
         })
     }
     const user = new User(req.body)
-    user.save((err, user) => {
-        if (err) {
-           return res.status(400).json(err)
+    user.save().then(
+        () => {
+          res.status(201).json({
+            message: 'user saved successfully!'
+          });
         }
-
-        return res.json({
-            message: "ok",
-            user
-        })
-    })
+      ).catch(
+        (err) => {
+          res.status(400).json({
+            error: err
+          });
+        }
+      );
 }
 
 exports.signin = (req, res) => {
